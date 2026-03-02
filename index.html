@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>මගේ පුද්ගලික ගැලරිය</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .animated-bg span {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 25s linear infinite;
+            bottom: -150px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 0;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            animation: slideUp 1s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(45deg, #f3f4f6, #ffffff);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+            }
+            50% {
+                box-shadow: 0 5px 30px rgba(102, 126, 234, 0.6);
+            }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 10px;
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #666;
+            animation: slideInRight 1s ease-out;
+        }
+
+        .phone-number {
+            display: inline-block;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-size: 1.3em;
+            margin-top: 15px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Gallery Section */
+        .gallery-title {
+            text-align: center;
+            font-size: 2em;
+            color: #333;
+            margin: 40px 0 20px;
+            position: relative;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .gallery-title:after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            margin: 10px auto;
+            border-radius: 2px;
+            animation: expandWidth 2s ease-in-out;
+        }
+
+        @keyframes expandWidth {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100px;
+            }
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        /* Gallery Items */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.5s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.7s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.9s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            display: block;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Overlay Animation */
+        .overlay {
+            position: absolute;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            transition: bottom 0.5s ease;
+        }
+
+        .gallery-item:hover .overlay {
+            bottom: 0;
+        }
+
+        .overlay h3 {
+            font-size: 1.1em;
+            margin: 0;
+            transform: translateY(20px);
+            transition: transform 0.5s ease 0.1s;
+        }
+
+        .gallery-item:hover .overlay h3 {
+            transform: translateY(0);
+        }
+
+        /* Modal for Image Preview */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            margin: auto;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: zoomIn 0.3s ease;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: translateY(-50%) scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(-50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(255,255,255,0.2);
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: white;
+            font-size: 50px;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .close:hover {
+            color: #f00;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 15px;
+            }
+            
+            .phone-number {
+                font-size: 1em;
+            }
+        }
+
+        /* Floating Animation for Background */
+        .floating-text {
+            text-align: center;
+            margin-top: 30px;
+            color: white;
+            animation: floatText 3s ease-in-out infinite;
+        }
+
+        @keyframes floatText {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg" id="animatedBg"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header Section with Your Info -->
+        <div class="header">
+            <h1>🌸 [ඔයාගේ නම මෙතන දාන්න] 🌸</h1>
+            <p>මගේ ලස්සන මතක සටහන්</p>
+            <div class="phone-number">
+                📞 [ඔයාගේ දුරකථන අංකය මෙතන දාන්න]
+            </div>
+        </div>
+
+        <!-- Gallery Title -->
+        <h2 class="gallery-title">📸 මගේ ඡායාරූප එකතුව</h2>
+
+        <!-- Loading Spinner -->
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p style="margin-top: 20px; color: #666;">පින්තූර පූරණය වෙමින්...</p>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="gallery" id="gallery">
+            <!-- Gallery Items - ඔයාගේ පින්තූර 5 -->
+            <div class="gallery-item">
+                <img src="1758767297979.jpg" alt="Photo 1" onclick="openModal(this)">
+                <div class="overlay">
+                    <h3>📷 ඡායාරූපය 1</h3>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="1758767366716.jpg" alt="Photo 2" onclick="openModal(this)">
+                <div class="overlay">
+                    <h3>📷 ඡායාරූපය 2</h3>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="1758767410766.jpg" alt="Photo 3" onclick="openModal(this)">
+                <div class="overlay">
+                    <h3>📷 ඡායාරූපය 3</h3>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="file_00000000006461f7b27656587b34d570.png" alt="Photo 4" onclick="openModal(this)">
+                <div class="overlay">
+                    <h3>📷 ඡායාරූපය 4</h3>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="file_00000000a8307208855180ace8071bcf.png" alt="Photo 5" onclick="openModal(this)">
+                <div class="overlay">
+                    <h3>📷 ඡායාරූපය 5</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; margin-top: 40px; padding: 20px; color: #666;">
+            <p class="floating-text">✨ සුන්දර මතක සටහන් ✨</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">&copy; 2024 | වෙබ් අඩවිය හදපු අයියා</p>
+        </div>
+    </div>
+
+    <!-- Modal for Image Preview -->
+    <div class="modal" id="imageModal" onclick="closeModal()">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <img id="modalImage" src="" alt="Preview">
+        </div>
+    </div>
+
+    <script>
+        // Create animated background elements
+        function createBackgroundAnimation() {
+            const bg = document.getElementById('animatedBg');
+            const colors = ['rgba(102, 126, 234, 0.1)', 'rgba(118, 75, 162, 0.1)', 'rgba(255, 255, 255, 0.1)'];
+            
+            for (let i = 0; i < 20; i++) {
+                const span = document.createElement('span');
+                const size = Math.random() * 100 + 20;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                
+                span.style.width = size + 'px';
+                span.style.height = size + 'px';
+                span.style.left = left + '%';
+                span.style.animationDuration = duration + 's';
+                span.style.animationDelay = delay + 's';
+                span.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                bg.appendChild(span);
+            }
+        }
+
+        // Modal functions
+        function openModal(img) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.style.display = 'block';
+            modalImg.src = img.src;
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Show loading animation
+        window.addEventListener('load', function() {
+            createBackgroundAnimation();
+            
+            // Simulate loading (remove if not needed)
+            const loading = document.getElementById('loading');
+            const gallery = document.getElementById('gallery');
+            
+            loading.style.display = 'block';
+            gallery.style.opacity = '0.5';
+            
+            setTimeout(function() {
+                loading.style.display = 'none';
+                gallery.style.opacity = '1';
+            }, 1000);
+        });
+
+        // Add hover sound effect (optional - uncomment if you want sound)
+        /*
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        galleryItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                const audio = new Audio('data:audio/wav;base64,UklGRlwAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YVQAAACAgICAf39/f39/f3+AgICAf39/f39/f38=');
+                audio.volume = 0.2;
+                audio.play().catch(e => {});
+            });
+        });
+        */
+
+        // Image error handling
+        document.querySelectorAll('.gallery-item img').forEach(img => {
+            img.onerror = function() {
+                this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300"><rect width="300" height="300" fill="%23f0f0f0"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="24" fill="%23999">පින්තූරය නැත</text></svg>';
+            };
+        });
+
+        // Smooth scroll animation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+  </html>
